@@ -143,8 +143,10 @@ public class BurrowUtil implements FuckYouStopSkiddingBitch {
     }
 
    public static void switchToSlot(final int slot) {
-        mc.player.inventory.currentItem = slot;
-    }
+    mc.player.connection.sendPacket(new CPacketHeldItemChange(slot));
+    mc.player.inventory.currentItem = slot;
+    mc.playerController.updateController();    
+}
 
     /*
     End Inventory Util
