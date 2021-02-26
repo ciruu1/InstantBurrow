@@ -3,8 +3,7 @@ package me.ciruu.abyss.feature.features.combat;
 import me.ciruu.abyss.event.events.ClientTickEvent;
 import me.ciruu.abyss.feature.ToggleableFeature;
 import me.ciruu.abyss.setting.Setting;
-import me.ciruu.abyss.utils.BlockUtil;
-import me.ciruu.abyss.utils.InventoryUtil;
+import fuck.you.stop.skidding.bitch;
 import me.ciruu.abyss.utils.Wrapper;
 import me.zero.alpine.listener.EventHandler;
 import me.zero.alpine.listener.Listener;
@@ -58,14 +57,14 @@ public class InstantBurrow extends ToggleableFeature {
     @EventHandler
     private final Listener<ClientTickEvent> onTick = new Listener<>(event -> {
         // If we don't have obsidian in hotbar toggle and return
-        if (InventoryUtil.findHotbarBlock(BlockObsidian.class) == -1) {
+        if (BurrowUtil.findHotbarBlock(BlockObsidian.class) == -1) {
             Wrapper.sendMessage("Can't find obsidian in hotbar!");
             toggle();
             return;
         }
 
         // Change to obsidian slot
-        InventoryUtil.switchToSlot(InventoryUtil.findHotbarBlock(BlockObsidian.class), false);
+        BurrowUtil.switchToSlot(BurrowUtil.findHotbarBlock(BlockObsidian.class), false);
 
         // Fake jump
         mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 0.41999998688698D, mc.player.posZ, true));
@@ -74,13 +73,13 @@ public class InstantBurrow extends ToggleableFeature {
         mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 1.16610926093821D, mc.player.posZ, true));
 
         // Place block
-        BlockUtil.placeBlock(originalPos, EnumHand.MAIN_HAND, rotate.getValue(), true, false);
+        BurrowUtil.placeBlock(originalPos, EnumHand.MAIN_HAND, rotate.getValue(), true, false);
 
         // Rubberband
         mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + offset.getValue(), mc.player.posZ, false));
 
         // SwitchBack
-        InventoryUtil.switchToSlot(oldSlot, false);
+        BurrowUtil.switchToSlot(oldSlot, false);
 
         // AutoDisable
         toggle();
