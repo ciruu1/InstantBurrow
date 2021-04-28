@@ -20,12 +20,14 @@ import static me.ciruu.abyss.utils.Wrapper.mc;
 
 /**
  * @author Ciruu
+ * Updated by CPacketCustomPayload on 28/04/2021
  */
 
 public class InstantBurrow extends ToggleableFeature {
 
     private final Setting<Boolean> rotate = new Setting<>("Rotate", "Rotate", this, false);
     private final Setting<Float> offset = new Setting<>("Offset", "Offset", this, 7.0F, -20.0F, 20.0F);
+    private final Setting<Boolean> sneak = new Setting<>("Sneak", "Sneak", this, false);
 
     private BlockPos originalPos;
     private int oldSlot = -1;
@@ -71,6 +73,14 @@ public class InstantBurrow extends ToggleableFeature {
         mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 0.7531999805211997D, mc.player.posZ, true));
         mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 1.00133597911214D, mc.player.posZ, true));
         mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, mc.player.posY + 1.16610926093821D, mc.player.posZ, true));
+        
+        // Sneak option.
+        boolean sneaking = mc.player.isSneaking(); 
+        if (sneak.getValue()) {
+            if (sneaking) {
+                mc.player.connection.sendPacket(new CPacketEntityAction(mc.player, START_SNEAKING));
+            }
+        }
 
         // Place block
         BurrowUtil.placeBlock(originalPos, EnumHand.MAIN_HAND, rotate.getValue(), true, false);
