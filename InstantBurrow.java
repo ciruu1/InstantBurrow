@@ -91,6 +91,12 @@ public class InstantBurrow extends ToggleableFeature {
         // SwitchBack
         BurrowUtil.switchToSlot(oldSlot, false);
 
+        // Stop sneak if the option was enabled.
+        if (sneak.getValue()) {
+            if (sneaking) {
+                mc.player.connection.sendPacket(new CPacketEntityAction(mc.player, STOP_SNEAKING));
+            }
+        }
         // AutoDisable
         toggle();
     });
